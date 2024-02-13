@@ -9,7 +9,7 @@ MQTT_TOPIC = "weather_data"
 
 def generate_weather_data():
     temperature = round(random.uniform(15, 30), 2)
-    humidity = round(random.uniform(30, 70), 2)
+    humidity = round(random.uniform(25, 70), 2)
     return {"temperature": temperature, "humidity": humidity}
 
 def on_connect(client, userdata, flags, rc, properties):

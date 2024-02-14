@@ -1,3 +1,4 @@
+import { useToast } from "vue-toastification";
 import http from "./axiosInstance";
 
 //helper for making a get request to api
@@ -61,9 +62,6 @@ function logAxiosError(e) {
 
 function showErrorNotification(message) {
   console.log(message)
-  // showNotification({
-  //   title: "Error",
-  //   message: message,
-  //   color: "red",
-  // });
+  const toast = useToast()
+  toast.error(message)
 }

@@ -1,11 +1,11 @@
 import express from "express";
-import connectDB from './utilities/db/index.js'
 import dotenv from 'dotenv'
-import errorHandler from "./middleware/errorHandler.js";
-import intializeRoutes from "./routes/index.js";
-import cors from './middleware/cors.js'
 import mongoose from "mongoose";
 import client from './mqtt.js'
+import connectDB from './utilities/db/index.js'
+import cors from './middleware/cors.js'
+import intializeRoutes from "./routes/index.js";
+import errorHandler from "./middleware/errorHandler.js";
 dotenv.config()
 
 const app = express()

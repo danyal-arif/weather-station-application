@@ -1,11 +1,12 @@
 <template>
   <Header />
-  <SignUp />
+  <NavLinks />
+  <router-view></router-view>
 </template>
 
 <script setup>
-import SignUp from './components/SignUp.vue';  
 import Header from './components/Header.vue';
+import NavLinks from './components/NavLinks.vue'
 </script>
 
 <style>

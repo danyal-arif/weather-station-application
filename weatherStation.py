@@ -36,5 +36,5 @@ def main():
         print(f"Published: {payload}")
 
         # Wait for a while before sending the next data
-        time.sleep(1)
+        time.sleep(10)
 main()

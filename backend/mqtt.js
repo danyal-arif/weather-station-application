@@ -24,7 +24,6 @@ client.on("connect", async () => {
 
 client.on("message", async (topic, message) => {
   message = JSON.parse(message.toString())
-  console.log(message)
   //write that message to influxdb
   try {
     await influx.writePoints([

@@ -2,10 +2,13 @@ import time
 import json
 import random
 import paho.mqtt.client as mqtt
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-MQTT_BROKER_ADDRESS = "localhost"
-MQTT_BROKER_PORT = 1883
-MQTT_TOPIC = "weather_data"
+MQTT_BROKER_ADDRESS = os.getenv("MQTT_BROKER_ADDRESS")
+MQTT_BROKER_PORT = os.getenv("MQTT_BROKER_PORT")
+MQTT_TOPIC = os.getenv("MQTT_TOPIC")
 
 def generate_weather_data():
     temperature = round(random.uniform(15, 30), 2)

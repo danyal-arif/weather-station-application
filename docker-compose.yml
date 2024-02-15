@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto
+    ports:
+      - "1883:1883"
+    networks:
+      - common-network
+
+  mongo:
+    volumes:
+      - weather_db:/data/db
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - common-network
+
+  weather-station:
+    build: ./weatherStation
+    depends_on:
+      - mqtt-broker
+    networks:
+      - common-network
+
+  weather-api:
+    build: ./backend
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+      - mqtt-broker
+      - weather-station
+    networks:
+      - common-network
+
+  weather-ui:
+    depends_on:
+      - weather-api
+    build: ./frontend
+    ports:
+      - 5173:5173
+    networks:
+      - common-network
+
+volumes:
+  weather_db:
+
+networks:
+  common-network:
+    driver: bridge

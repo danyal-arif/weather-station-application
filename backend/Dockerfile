@@ -1,6 +1,6 @@
 FROM node:alpine
 
-WORKDIR /moviehub-api
+WORKDIR /weather-api
 COPY package*.json .
 RUN npm install
 COPY . .

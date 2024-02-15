@@ -6,7 +6,7 @@
         <label class="inline-block font-bold mb-1">Select Date Range</label>
         <VueDatePicker v-model="date" range :clearable="false" />
       </div>
-      <div v-if="weatherData.length === 0" class="flex justify-center mt-8">
+      <div v-if="weatherData && weatherData.length === 0" class="flex justify-center mt-8">
         <span class="text-4xl text-red-700">No Data found in this range!</span>
       </div>
       <div v-else class="mt-8">

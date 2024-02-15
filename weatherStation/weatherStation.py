@@ -1,3 +1,4 @@
+print('begin')
 import time
 import json
 import random
@@ -7,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MQTT_BROKER_ADDRESS = os.getenv("MQTT_BROKER_ADDRESS")
-MQTT_BROKER_PORT = os.getenv("MQTT_BROKER_PORT")
+MQTT_BROKER_PORT = int(os.getenv("MQTT_BROKER_PORT"))
 MQTT_TOPIC = os.getenv("MQTT_TOPIC")
 
 def generate_weather_data():
@@ -23,6 +24,8 @@ def on_publish(client, userdata, mid, rc, properties):
     print(f"Data published with message id {mid}")
 
 def main():
+    print('run')
+    print(MQTT_BROKER_ADDRESS)
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.on_connect = on_connect
     client.on_publish = on_publish

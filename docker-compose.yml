@@ -1,24 +1,39 @@
 version: '3.8'
 
 services:
-  mqtt-broker:
-    image: eclipse-mosquitto
+
+  influxdb:
+    image: influxdb:1.8.10
     ports:
-      - "1883:1883"
+      - '8087:8086'
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
     networks:
       - common-network
+  mqtt-broker:
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1884:1883"
+    networks:
+      - common-network
+    volumes:
+      - ./weatherStation/mosquitto.conf:/mosquitto/config/mosquitto.conf
 
   mongo:
     volumes:
       - weather_db:/data/db
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - "27018:27017"
     networks:
       - common-network
 
   weather-station:
     build: ./weatherStation
+    environment:
+      - MQTT_BROKER_ADDRESS=mqtt-broker
+      - MQTT_BROKER_PORT=1883
+      - MQTT_TOPIC=weather_data
     depends_on:
       - mqtt-broker
     networks:
@@ -30,11 +45,20 @@ services:
     ports:
       - 3000:3000
     depends_on:
+      - influxdb
       - mongo
       - mqtt-broker
       - weather-station
     networks:
       - common-network
+    environment:
+      - DB_URI=mongodb://mongo:27017/weather
+      - PORT=3000
+      - JWT_SECRET=weather_app
+      - MQTT_URL=mqtt://mqtt-broker:1883
+      - MQTT_TOPIC=weather_data
+      - INFLUX_URL=influxdb
+      - INFLUX_PORT=8086
 
   weather-ui:
     depends_on:
@@ -44,9 +68,12 @@ services:
       - 8080:8080
     networks:
       - common-network
+    environment:
+      - VUE_APP_BACKEND_URL=http://localhost:3000
 
 volumes:
   weather_db:
+  influxdb-storage:
 
 networks:
   common-network:

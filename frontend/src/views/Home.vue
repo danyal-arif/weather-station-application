@@ -4,9 +4,12 @@
       <span class="block text-center text-4xl mb-2 text-blue-900">Weather Data</span>
       <div>
         <label class="inline-block font-bold mb-1">Select Date Range</label>
-        <VueDatePicker v-model="date" range />
+        <VueDatePicker v-model="date" range :clearable="false" />
       </div>
-      <div class="mt-8">
+      <div v-if="weatherData.length === 0" class="flex justify-center mt-8">
+        <span class="text-4xl text-red-700">No Data found in this range!</span>
+      </div>
+      <div v-else class="mt-8">
         <div id="chart">
           <VueApexCharts
             type="line"
@@ -25,11 +28,11 @@ import { ref, onMounted, watch, computed } from "vue";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import VueApexCharts from "vue3-apexcharts";
 import { axiosGet } from "@/helpers/axiosHelper";
-import { useToast } from "vue-toastification";
+// import { useToast } from "vue-toastification";
 
 const date = ref();
 const weatherData = ref([]);
-const toast = useToast()
+// const toast = useToast()
 onMounted(() => {
   const startDate = new Date(new Date().setDate(new Date().getDate() - 1));
   const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
@@ -39,7 +42,7 @@ watch(date, async (newVal) => {
   weatherData.value = await axiosGet(
     `/weather?startTime=${newVal[0].getTime()}&endTime=${newVal[1].getTime()}`
   );
-  if (weatherData.value?.length === 0) toast.error('No data in this time range!')
+  // if (weatherData.value?.length === 0) toast.error('No data in this time range!')
 });
 
 const series = computed(() => [

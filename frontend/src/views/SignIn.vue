@@ -76,12 +76,13 @@
 </template>
 
 <script setup>
-import { reactive, computed, ref } from "vue";
+import { reactive, computed, defineEmits, ref } from "vue";
 import useValidate from "@vuelidate/core";
 import { required, minLength, email } from "@vuelidate/validators";
 import { axiosPost } from "../helpers/axiosHelper.js";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
+const emit = defineEmits(['localStorageUpdated'])
 const router = useRouter();
 const loading = ref(false);
 const toast = useToast();
@@ -111,6 +112,7 @@ async function onSubmit() {
     router.push("/");
     localStorage.setItem('token', data)
     toast.success("Login Successfull!");
+    emit('localStorageUpdated')
   } else {
     toast.error("Invalid Credentials!");
   }

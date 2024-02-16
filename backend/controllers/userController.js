@@ -3,7 +3,6 @@ import RequestError from "../utilities/error/RequestError.js"
 import { addUser, getUser, getUsers, updateUser } from "../services/userService.js"
 import generateToken from '../utilities/jwt/generateToken.js'
 import bcrypt from 'bcryptjs'
-import User from "../models/User.js"
 export const register = async (req, res, next) => {
     //detecting errors in req.body
     const errors = validationResult(req)
@@ -61,6 +60,6 @@ export const editUser = async (req, res, next) => {
     }
 }
 
-export const getAuthorizedUser = (req, res, next) => {
+export const getAuthorizedUser = (req, res) => {
     res.json({data: req.user})
 }

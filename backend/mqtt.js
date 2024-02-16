@@ -3,9 +3,9 @@ const CITIES = ['Lahore', 'Islamabad', 'Karachi', 'Multan', 'Rawalpindi']
 import dotenv from 'dotenv'
 dotenv.config()
 const client = mqtt.connect(process.env.MQTT_URL);
+// eslint-disable-next-line no-unused-vars
 import Influx from './utilities/influx/index.js'
 const influx = global.influx
-console.dir(Influx)
 client.on("connect", async () => {
   //verify that database exists
   try {
@@ -36,5 +36,13 @@ client.on("message", async (topic, message) => {
     process.exit(1)
   }
 });
+
+
+const closeMqttConnection = () => {
+  client.end(); // This will close the connection to the MQTT broker
+};
+
+// Handle process events to close the connection when the application is terminated
+process.on('close-mqtt', closeMqttConnection);
 
 export default client

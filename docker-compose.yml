@@ -59,6 +59,7 @@ services:
       - MQTT_TOPIC=weather_data
       - INFLUX_URL=influxdb
       - INFLUX_PORT=8086
+      - MODE=DEV
 
   weather-ui:
     depends_on:

@@ -1,7 +1,6 @@
-import Influx from 'influx'
+import * as Influx from 'influx'
 import dotenv from 'dotenv'
 dotenv.config()
-
 const influx = new Influx.InfluxDB({
     host: process.env.INFLUX_URL,
     database: 'weatherdb',

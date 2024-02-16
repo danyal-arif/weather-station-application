@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from 'dotenv'
 import mongoose from "mongoose";
+// eslint-disable-next-line no-unused-vars
 import client from './mqtt.js'
 import connectDB from './utilities/db/index.js'
 import cors from './middleware/cors.js'
@@ -20,12 +21,14 @@ app.use(errorHandler)
 //function for starting the server
 const createServer = async (appPort) => {
     const port = appPort || process.env.PORT || 5000
+    console.log(port)
     return app.listen(port, () => {
         console.log('app listening on port', + port)
     })
 }
 mongoose.connection.on('connected', () => {
-    createServer()
+    if (process.env.MODE !== 'TEST')
+        createServer()
 })
 
 export default createServer

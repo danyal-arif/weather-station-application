@@ -1,145 +1,26 @@
 <template>
   <div class="flex justify-center w-full">
     <div class="w-full p-16">
-      <span class="block text-center text-4xl mb-2 text-blue-900">Weather Data</span>
+      <span class="block text-center text-4xl mb-2 text-blue-900"
+      >Weather Data</span>
+      <label class="inline-flex items-center cursor-pointer mb-4">
+        <input type="checkbox" v-model="isRealTime" class="sr-only peer">
+        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Realtime</span>
+      </label>
       <div>
-        <label class="inline-block font-bold mb-1">Select Date Range</label>
-        <VueDatePicker v-model="date" range :clearable="false" />
-      </div>
-      <div v-if="weatherData && weatherData.length === 0" class="flex justify-center mt-8">
-        <span class="text-4xl text-red-700">No Data found in this range!</span>
-      </div>
-      <div v-else class="mt-8">
-        <div id="chart">
-          <VueApexCharts
-            type="line"
-            height="600"
-            :options="chartOptions"
-            :series="series"
-          ></VueApexCharts>
-        </div>
+        <Dashboard v-if="!isRealTime" />
+        <DashboardRealtime v-else />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from "vue";
-import VueDatePicker from "@vuepic/vue-datepicker";
-import VueApexCharts from "vue3-apexcharts";
-import { axiosGet } from "@/helpers/axiosHelper";
-// import { useToast } from "vue-toastification";
+import Dashboard from '@/components/Dashboard.vue';
+import DashboardRealtime from '@/components/DashboardRealtime.vue'
+import { ref } from 'vue';
 
-const date = ref();
-const weatherData = ref([]);
-// const toast = useToast()
-onMounted(() => {
-  const startDate = new Date(new Date().setDate(new Date().getDate() - 1));
-  const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-  date.value = [startDate, endDate];
-});
-watch(date, async (newVal) => {
-  weatherData.value = await axiosGet(
-    `/weather?startTime=${newVal[0].getTime()}&endTime=${newVal[1].getTime()}`
-  );
-  // if (weatherData.value?.length === 0) toast.error('No data in this time range!')
-});
+  const isRealTime = ref(true)
 
-const series = computed(() => [
-  {
-    name: "Humidity",
-    type: "column",
-    data:
-      weatherData.value.length >= 1
-        ? weatherData.value.map((item) => item.humidity)
-        : [],
-  },
-  {
-    name: "Temperature",
-    type: "column",
-    data:
-      weatherData.value.length >= 1
-        ? weatherData.value.map((item) => item.temperature)
-        : [],
-  },
-]);
-const timeStamps = computed(() =>
-  weatherData.value.length >= 1
-    ? weatherData.value.map((item) => item.time)
-    : []
-);
-const chartOptions = computed(() => ({
-  dataLabels: {
-    enabled: false,
-  },
-  stroke: {
-    width: [1, 1, 4],
-  },
-  title: {
-    align: "left",
-    offsetX: 110,
-  },
-  xaxis: {
-    categories: timeStamps.value,
-  },
-  yaxis: [
-    {
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: "#008FFB",
-      },
-      labels: {
-        style: {
-          colors: "#008FFB",
-        },
-      },
-      title: {
-        text: "Humidity",
-        style: {
-          color: "#008FFB",
-        },
-      },
-      tooltip: {
-        enabled: true,
-      },
-    },
-    {
-      seriesName: "Humidity",
-      opposite: true,
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: "#00E396",
-      },
-      labels: {
-        style: {
-          colors: "#00E396",
-        },
-      },
-      title: {
-        text: "Temperature",
-        style: {
-          color: "#00E396",
-        },
-      },
-    },
-  ],
-  tooltip: {
-    fixed: {
-      enabled: true,
-      position: "topLeft",
-      offsetY: 30,
-      offsetX: 60,
-    },
-  },
-  legend: {
-    horizontalAlign: "left",
-    offsetX: 40,
-  }
-}))
 </script>

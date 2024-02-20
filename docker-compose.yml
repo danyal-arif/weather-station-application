@@ -14,6 +14,8 @@ services:
     image: eclipse-mosquitto:latest
     ports:
       - "1884:1883"
+      - "8085:8085"
+
     networks:
       - common-network
     volumes:
@@ -71,6 +73,8 @@ services:
       - common-network
     environment:
       - VUE_APP_BACKEND_URL=http://localhost:3000
+      - VUE_APP_MQTT_URL="ws://localhost:8085"
+      - VUE_APP_MQTT_TOPIC="weather_data"
 
 volumes:
   weather_db:

@@ -12,6 +12,7 @@ const checkToken = (req, res, next) => {
         return next(new RequestError({ code: 401, message: "Invalid Token!" }));
       } else {
         const newUser = await getUser({ _id: user._id })
+        if (!newUser) return next(new RequestError({ code: 401, message: "Expired Token!" }));
         newUser._id = newUser?._id?.toString();
         req.user = newUser;
         next();

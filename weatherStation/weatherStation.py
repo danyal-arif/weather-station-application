@@ -3,6 +3,7 @@ import time
 import json
 import random
 import paho.mqtt.client as mqtt
+
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -26,7 +27,7 @@ def on_publish(client, userdata, mid, rc, properties):
 def main():
     print('run')
     print(MQTT_BROKER_ADDRESS)
-    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, transport="websockets")
     client.on_connect = on_connect
     client.on_publish = on_publish
 
@@ -42,5 +43,5 @@ def main():
         print(f"Published: {payload}")
 
         # Wait for a while before sending the next data
-        time.sleep(10)
+        time.sleep(5)
 main()

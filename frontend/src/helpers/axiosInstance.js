@@ -25,8 +25,7 @@ http?.interceptors.response.use(function (response) {
     if (status === 401) {
         if (typeof localStorage !== 'undefined' && localStorage.getItem('token')) {
             localStorage.removeItem('token')
-            localStorage.removeItem('role')
-            window.location.assign('/auth/login')
+            window.location.assign('/signin')
             return Promise.reject(error)
         } else {
             return Promise.reject(error)

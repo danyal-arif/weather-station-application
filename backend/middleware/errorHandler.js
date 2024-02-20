@@ -1,4 +1,5 @@
 import RequestError from "../utilities/error/RequestError.js";
+// eslint-disable-next-line no-unused-vars
 function errorHandler(error, req, res, next) {
     console.log('in handler')
     console.error(error)

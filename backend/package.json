@@ -29,7 +29,9 @@
     "mockingoose": "^2.16.2",
     "mongoose": "^8.0.3",
     "mqtt": "^5.3.5",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "eslint": "^8.56.0",

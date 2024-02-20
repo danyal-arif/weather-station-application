@@ -7,6 +7,7 @@ import connectDB from './utilities/db/index.js'
 import cors from './middleware/cors.js'
 import intializeRoutes from "./routes/index.js";
 import errorHandler from "./middleware/errorHandler.js";
+import swaggerDocs from "./utilities/swagger/index.js";
 dotenv.config()
 
 const app = express()
@@ -24,6 +25,7 @@ const createServer = async (appPort) => {
     console.log(port)
     return app.listen(port, () => {
         console.log('app listening on port', + port)
+        swaggerDocs(app)
     })
 }
 mongoose.connection.on('connected', () => {

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="mt-8">
     <div id="chart">
       <VueApexCharts
@@ -147,4 +147,4 @@ const chartOptions = {
     offsetX: 40,
   },
 };
-</script>
+</script> -->

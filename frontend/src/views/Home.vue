@@ -10,7 +10,7 @@
       </label>
       <div>
         <Dashboard v-if="!isRealTime" />
-        <DashboardRealtime v-else />
+        <!-- <DashboardRealtime v-else /> -->
       </div>
     </div>
   </div>
@@ -18,9 +18,9 @@
 
 <script setup>
 import Dashboard from '@/components/Dashboard.vue';
-import DashboardRealtime from '@/components/DashboardRealtime.vue'
+// import DashboardRealtime from '@/components/DashboardRealtime.vue'
 import { ref } from 'vue';
 
-  const isRealTime = ref(true)
+  const isRealTime = ref(false)
 
 </script>

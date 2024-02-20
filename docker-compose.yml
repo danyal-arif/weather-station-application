@@ -73,7 +73,7 @@ services:
       - common-network
     environment:
       - VUE_APP_BACKEND_URL=http://localhost:3000
-      - VUE_APP_MQTT_URL="ws://localhost:8085"
+      - VUE_APP_MQTT_URL="ws://mqtt-broker:8085"
       - VUE_APP_MQTT_TOPIC="weather_data"
 
 volumes:

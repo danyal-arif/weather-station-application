@@ -5,16 +5,17 @@ services:
   influxdb:
     image: influxdb:1.8.10
     ports:
-      - '8087:8086'
+      - 8087:8086
     volumes:
       - influxdb-storage:/var/lib/influxdb
     networks:
       - common-network
+
   mqtt-broker:
     image: eclipse-mosquitto:latest
     ports:
-      - "1884:1883"
-      - "8085:8085"
+      - 1884:1883
+      - 9000:8085
 
     networks:
       - common-network
@@ -26,7 +27,7 @@ services:
       - weather_db:/data/db
     image: mongo:latest
     ports:
-      - "27018:27017"
+      - 27018:27017
     networks:
       - common-network
 
@@ -34,7 +35,7 @@ services:
     build: ./weatherStation
     environment:
       - MQTT_BROKER_ADDRESS=mqtt-broker
-      - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_PORT=8085
       - MQTT_TOPIC=weather_data
     depends_on:
       - mqtt-broker
@@ -73,7 +74,7 @@ services:
       - common-network
     environment:
       - VUE_APP_BACKEND_URL=http://localhost:3000
-      - VUE_APP_MQTT_URL="ws://mqtt-broker:8085"
+      - VUE_APP_MQTT_URL=ws://localhost:8085
       - VUE_APP_MQTT_TOPIC="weather_data"
 
 volumes:

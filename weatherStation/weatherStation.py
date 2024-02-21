@@ -11,7 +11,7 @@ load_dotenv()
 MQTT_BROKER_ADDRESS = os.getenv("MQTT_BROKER_ADDRESS")
 MQTT_BROKER_PORT = int(os.getenv("MQTT_BROKER_PORT"))
 MQTT_TOPIC = os.getenv("MQTT_TOPIC")
-
+print(os.getenv("MQTT_BROKER_PORT"))
 def generate_weather_data():
     temperature = round(random.uniform(15, 30), 2)
     humidity = round(random.uniform(25, 70), 2)

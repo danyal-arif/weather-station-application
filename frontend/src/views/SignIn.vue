@@ -113,8 +113,6 @@ async function onSubmit() {
     localStorage.setItem('token', data)
     toast.success("Login Successfull!");
     emit('localStorageUpdated')
-  } else {
-    toast.error("Invalid Credentials!");
   }
 }
 </script>

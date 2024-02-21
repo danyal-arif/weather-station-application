@@ -17,24 +17,23 @@ import client from "@/helpers/mqtt";
 import { ref, onMounted, onUnmounted } from "vue";
 import VueApexCharts from "vue3-apexcharts";
 
-const weatherData = ref([]);
+const weatherData = [];
 const chart = ref(null);
 
 onMounted(() => {
   client.on("message", (topic, message) => {
     const data = JSON.parse(message.toString());
     data.x = new Date();
-    weatherData.value.push(data);
+    weatherData.push(data);
     if (chart.value.updateSeries) {
-      console.log(weatherData.value);
       try {
         chart.value.updateSeries([
           {
             name: "Temperature",
             type: "column",
             data:
-              weatherData.value.length >= 1
-                ? weatherData.value.map((item) => ({
+              weatherData.length >= 1
+                ? weatherData.map((item) => ({
                     x: item.x,
                     y: item.temperature,
                   }))
@@ -44,8 +43,8 @@ onMounted(() => {
             name: "Humidity",
             type: "column",
             data:
-              weatherData.value.length >= 1
-                ? weatherData.value.map((item) => ({
+              weatherData.length >= 1
+                ? weatherData.map((item) => ({
                     x: item.x,
                     y: item.humidity,
                   }))
